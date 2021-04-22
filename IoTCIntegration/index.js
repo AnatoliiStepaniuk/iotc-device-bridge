@@ -17,6 +17,14 @@ const parameters = {
 let kvToken;
 
 module.exports = async function (context, req) {
+    
+    req.body = {
+    device: {
+        deviceId: req.body.payloadMetaData.deviceMetaData.deviceEUI
+    },
+    measurements: req.body.payload
+};
+    
     try {
         await handleMessage({ ...parameters, log: context.log, getSecret: getKeyVaultSecret }, req.body.device, req.body.measurements, req.body.timestamp);
     } catch (e) {
